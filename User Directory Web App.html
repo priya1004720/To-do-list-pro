@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Directory</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f4f0f0;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 8px;
+    width: 200px;
+    margin: 10px;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    background: black;
+    color: white;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #333;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: 220px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>User Directory</h2>
+
+<input type="text" id="search" placeholder="Search name">
+<br>
+<button onclick="sortAZ()">A-Z</button>
+<button onclick="sortZA()">Z-A</button>
+
+<div class="container" id="users"></div>
+
+<script>
+const users = [
+    {name:"Anjali", email:"anjali@mail.com", phone:"9876543210", company:"ABC Ltd"},
+    {name:"Kala", email:"kala@mail.com", phone:"9123456780", company:"XYZ Corp"},
+    {name:"Priya", email:"priya@mail.com", phone:"9012345678", company:"TechSoft"},
+    {name:"Vikram", email:"vikram@mail.com", phone:"8899776655", company:"InfoSys"},
+    {name:"Meena", email:"meena@mail.com", phone:"7788996655", company:"SmartTech"}
+];
+
+let currentList = [...users];
+
+function showUsers(list) {
+    const box = document.getElementById("users");
+    box.innerHTML = "";
+
+    list.forEach(u => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h4>${u.name}</h4>
+            <p><b>Email:</b> ${u.email}</p>
+            <p><b>Phone:</b> ${u.phone}</p>
+            <p><b>Company:</b> ${u.company}</p>
+        `;
+
+        box.appendChild(card);
+    });
+}
+
+function sortAZ() {
+    currentList.sort((a,b) => a.name.localeCompare(b.name));
+    showUsers(currentList);
+}
+
+function sortZA() {
+    currentList.sort((a,b) => b.name.localeCompare(a.name));
+    showUsers(currentList);
+}
+
+document.getElementById("search").oninput = function() {
+    let val = this.value.toLowerCase();
+
+    currentList = users.filter(u =>
+        u.name.toLowerCase().includes(val)
+    );
+
+    showUsers(currentList);
+};
+
+showUsers(users);
+</script>
+
+</body>
+</html>
